@@ -1,10 +1,11 @@
 from constants import TOKEN
 from messages import HELLO,asd,Developers,Commands
 from telebot import types
-#import database
+import database
 import telebot
 import requests
 import time
+#weatherbot
 
 bot = telebot.TeleBot(TOKEN)
 
