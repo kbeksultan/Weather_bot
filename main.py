@@ -7,6 +7,7 @@ import time
 
 bot = telebot.TeleBot(TOKEN)
 
+
 cities = ['Almaty', 'Pavlodar', 'Astana',
           'Atyrau', 'Aktau', 'Semey', 'Petropavlosk',
           'Shymkent', 'Shymkent', 'Karaganda', 'Aktobe',
