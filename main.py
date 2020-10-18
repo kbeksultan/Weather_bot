@@ -1,4 +1,4 @@
-from constants import TOKEN, WEATHERAPI, APPID
+from constants import TOKEN, WEATHERAPI, APPID, photos, cities
 from messages import HELLO, asd, Developers, Commands
 from telebot import types
 import telebot
@@ -6,12 +6,6 @@ import requests
 import time
 
 bot = telebot.TeleBot(TOKEN)
-
-cities = ['Almaty', 'Pavlodar', 'Astana',
-          'Atyrau', 'Aktau', 'Semey', 'Petropavlosk',
-          'Shymkent', 'Shymkent', 'Karaganda', 'Aktobe',
-          'Kyzylorda', 'Oskemen', 'Uralsk', 'Taraz']
-
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -33,16 +27,13 @@ def developers(message):
 
 @bot.message_handler(commands=['city'])
 def get_city(message):
-    photo = open('photos/kaz.jpg', 'rb')
+    photo = '{}'.format(photos['Kazakhstan'])
     markup = types.ReplyKeyboardMarkup(row_width=4)
     markup.row(*cities[-4:])
-    markup.row(*cities[7:11])
+    markup.row(*cities[7:10])
     markup.row(*cities[3:7])
     markup.row(*cities[:3])
-    bot.send_message(
-        message.chat.id, "Here the list of Kazakhstan Cities", reply_markup=markup)
-    bot.send_photo(message.chat.id, photo)
-    photo.close()
+    bot.send_photo(message.chat.id, photo, caption="Here the list of Kazakhstan Cities", reply_markup=markup)
 
 
 @bot.message_handler(regexp='[A-Za-z]')
@@ -54,8 +45,7 @@ def send_weather(message):
     f.write(text)
     f.close()
     if city in cities:
-        photo = open('photos/{}.jpg'.format(city.lower()), 'rb')
-        bot.send_photo(message.chat.id, photo)
+        photo = '{}'.format(photos[city])
         r = requests.get(WEATHERAPI.format(city, APPID))
         text = r.json()
         weather = (text['weather'][0]['description'])
@@ -66,14 +56,12 @@ def send_weather(message):
         wind = int(text['wind']['speed'])
         sunrise = int(text['sys']['sunrise'])
         sunset = int(text['sys']['sunset'])
-        bot.send_message(message.chat.id, "Weather: " + weather + "\nTemp: " + str(temp_c) + " *C" +
+        bot.send_photo(message.chat.id, photo, caption =  "Weather: " + weather + "\nTemp: " + str(temp_c) + " °С" +
                          "\nPressure: " + str(pres) + " Pa" + "\nHumidity: " + str(hum) + " %" + "\nVisibility: " + str(
             vis) + " m" +
-            "\nWind Speed: " + str(wind) + " km/h" + "\nSunrise :" + str(
+            "\nWind Speed: " + str(wind) + " km/h" + "\nSunrise: " + str(
             time.strftime("%a, %d %b %Y %H:%M:%S ", time.localtime(sunrise))) +
-            "\nSunset :" + str(time.strftime("%a, %d %b %Y %H:%M:%S ", time.localtime(sunset))))
-        photo.close()
-
+            "\nSunset: " + str(time.strftime("%a, %d %b %Y %H:%M:%S ", time.localtime(sunset))))
 
 if __name__ == '__main__':
     print('Starting WeatherBot')
