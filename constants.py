@@ -1,6 +1,6 @@
 import os
-TOKEN = os.getenv("TOKEN") or ""
-APPID = os.getenv("APPID") or ""
+TOKEN = os.getenv("TOKEN") or os.environ.get('TOKEN')
+APPID = os.getenv("APPID") or os.environ.get('APPID')
 
 WEATHERAPI = 'http://api.openweathermap.org/data/2.5/weather?q={}&appid={}'
 
