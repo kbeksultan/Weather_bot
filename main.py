@@ -1,5 +1,5 @@
 from constants import TOKEN, WEATHERAPI, APPID, photos, cities
-from messages import HELLO, asd, Developers, Commands
+from messages import HELLO, CHOOSE, DEVELOPERS, COMMANDS
 from telebot import types
 import telebot
 import requests
@@ -7,32 +7,23 @@ import time
 
 bot = telebot.TeleBot(TOKEN)
 
-<<<<<<< HEAD
 
-cities = ['Almaty', 'Pavlodar', 'Astana',
-          'Atyrau', 'Aktau', 'Semey', 'Petropavlosk',
-          'Shymkent', 'Shymkent', 'Karaganda', 'Aktobe',
-          'Kyzylorda', 'Oskemen', 'Uralsk', 'Taraz']
-
-
-=======
->>>>>>> c023e3bff8128a7fa5abdcb6304047b6872c9a28
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.send_message(message.chat.id, "Hello, " +
                      message.from_user.first_name + HELLO)
-    bot.send_message(message.chat.id, asd)
+    bot.send_message(message.chat.id, CHOOSE)
     bot.send_message(message.chat.id, "Press: /help to show commands")
 
 
 @bot.message_handler(commands=['help'])
 def help_user(message):
-    bot.send_message(message.chat.id, Commands)
+    bot.send_message(message.chat.id, COMMANDS)
 
 
 @bot.message_handler(commands=['dev'])
 def developers(message):
-    bot.send_message(message.chat.id, Developers)
+    bot.send_message(message.chat.id, DEVELOPERS)
 
 
 @bot.message_handler(commands=['city'])
@@ -44,6 +35,7 @@ def get_city(message):
     markup.row(*cities[3:7])
     markup.row(*cities[:3])
     bot.send_photo(message.chat.id, photo, caption="Here the list of Kazakhstan Cities", reply_markup=markup)
+
 
 @bot.message_handler(regexp='[A-Za-z]')
 def send_weather(message):
@@ -71,6 +63,7 @@ def send_weather(message):
             "\nWind Speed: " + str(wind) + " km/h" + "\nSunrise: " + str(
             time.strftime("%a, %d %b %Y %H:%M:%S ", time.localtime(sunrise))) +
             "\nSunset: " + str(time.strftime("%a, %d %b %Y %H:%M:%S ", time.localtime(sunset))))
+
 
 if __name__ == '__main__':
     print('Starting WeatherBot')
