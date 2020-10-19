@@ -45,7 +45,6 @@ def get_city(message):
     markup.row(*cities[:3])
     bot.send_photo(message.chat.id, photo, caption="Here the list of Kazakhstan Cities", reply_markup=markup)
 
-
 @bot.message_handler(regexp='[A-Za-z]')
 def send_weather(message):
     city = message.text
